@@ -52,7 +52,7 @@ const MyPieChart: React.FC = () => (
             <Tooltip />
           </PieChart>
       
-        </ResponsiveContainer>
+         </ResponsiveContainer>
       </div>
     </div>
 );
