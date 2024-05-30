@@ -18,6 +18,7 @@ const Page: React.FC = () => {
 
   useEffect(() => {
     setLoaded(true);
+    console.log("hello")
 
     const fetchData = async () => {
       const response = await fetch('/api/parks');
