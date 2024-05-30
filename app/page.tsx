@@ -8,11 +8,25 @@ import MyLineChart from './dashboard/LineChart';
 import DataVisualization from '@/components/DataVisualization';
 import DataControls from '@/components/DataControls';
 
+import dynamic from 'next/dynamic';
+
+const StateParksMap = dynamic(() => import('@/components/StateParksMap'), { ssr: false });
+
 const Page: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     setLoaded(true);
+
+    const fetchData = async () => {
+      const response = await fetch('/api/parks');
+      const result = await response.json();
+      console.log('result: ', result);
+      setData(result);
+    };
+
+    fetchData();
   }, []);
 
   if (!loaded) {
@@ -20,20 +34,8 @@ const Page: React.FC = () => {
   }
 
   return (
-    <main className="flex min-h-screen flex-col p-8">
-      <div>
-        <NavBar />
-      </div>
-      <div className="w-full h-full bg-yellow-500 flex flex-1">
-        <DataVisualization />
-        <DataControls />
-        {/* <MyPieChart />
-    </div>
-      <MyBarChart />
-      <MyScatterPlot />
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm">
-      <MyLineChart /> */}
-      </div>
+    <main className=" min-h-screen ">
+        <StateParksMap parkData={data}/>
     </main>
   );
 };
