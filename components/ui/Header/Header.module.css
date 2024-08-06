@@ -1,0 +1,14 @@
+.header {
+  font-family: "Istok Web", sans-serif;
+  font-weight: 600;
+  font-size: 40px;
+  font-style: normal;
+  font-shadow: 10;
+  background: #205c35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: -webkit-fill-available;
+  height: 200px;
+  position: relative;
+}

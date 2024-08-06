@@ -1,0 +1,17 @@
+.customHeader {
+}
+
+.mainContainer {
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 50px;
+}
+
+.buttonsContainter {
+}
+.button {
+  padding: 10px;
+  align-content: center;
+  justify-content: space-between;
+}

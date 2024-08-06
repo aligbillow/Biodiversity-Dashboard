@@ -1,42 +1,44 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import NavBar from './dashboard/Header';
-import MyBarChart from './dashboard/BarChart';
-import MyPieChart from './dashboard/PieChart';
-import MyScatterPlot from './dashboard/ScatterPlot';
-import MyLineChart from './dashboard/LineChart';
-import DataVisualization from '@/components/DataVisualization';
-import DataControls from '@/components/DataControls';
+"use client";
 
-import dynamic from 'next/dynamic';
+import React, { useState, useEffect } from "react";
+import DataVisualization from "@/components/DataVisualization";
+import { ParkData } from "@/types/park";
+import { SpeciesData } from "@/types/species";
 
-const StateParksMap = dynamic(() => import('@/components/StateParksMap'), { ssr: false });
+type AppData = {
+  parks: ParkData[];
+  species: SpeciesData[];
+};
 
-const Page: React.FC = () => {
+const Page = () => {
+  const [data, setData] = useState<AppData | null>(null);
+  // const [filteredData, setFilteredData] = useState<AppData[]>();
+  console.log("data: ", data);
   const [loaded, setLoaded] = useState(false);
-  const [data, setData] = useState([]);
 
   useEffect(() => {
-    setLoaded(true);
-    console.log("hello")
-
     const fetchData = async () => {
-      const response = await fetch('/api/parks');
+      const response = await fetch("/api/parks");
       const result = await response.json();
-      console.log('result: ', result);
+      console.log("result: ", result);
       setData(result);
+      setLoaded(true);
+      // setFilteredData(data);
     };
-
     fetchData();
   }, []);
 
-  if (!loaded) {
+  if (!loaded || !data) {
     return null;
   }
 
   return (
-    <main className=" min-h-screen ">
-        <StateParksMap parkData={data}/>
+    <main className="min-h-screen">
+      <style>
+        @import
+        url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+      </style>
+      <DataVisualization parkData={data.parks} speciesData={data.species} />
     </main>
   );
 };

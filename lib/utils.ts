@@ -7,8 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-
-
 export const csvToJson = (filePath:any) => {
   return new Promise((resolve, reject) => {
     const data:any = [];
