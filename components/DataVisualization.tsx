@@ -10,16 +10,25 @@ import { SpeciesData } from "@/types/species";
 import Header from "./ui/Header/Header";
 import styles from "./App.module.css";
 
-const StateParksMap = dynamic(() => import("./ui/StateParksMap"), {
-  ssr: false,
-});
+// defualt chart state display for user
+// Info cards?
+// padding header
+// padding components
+
+const NationalParksMap = dynamic(
+  () => import("./ui/NationalParkMap/NationalParksMap"),
+  {
+    ssr: false,
+  }
+);
 
 type Props = {
   parkData: ParkData[];
   speciesData: SpeciesData[];
+  className?: string;
 };
 
-const DataVisualization = ({ parkData, speciesData }: Props) => {
+const DataVisualization = ({ parkData, speciesData, className }: Props) => {
   const [selectedParks, setSelectedParks] = useState<ParkData | null>(null);
   const [chartToDisplay, setChartToDisplay] = useState<string>("BAR_CHART");
   const [selectedParkSpeciesData, setSelectedParkSpeciesData] = useState<
@@ -41,47 +50,64 @@ const DataVisualization = ({ parkData, speciesData }: Props) => {
 
   return (
     <div className={styles.mainContainer}>
-      <Header level="h1">BioDiversity in State Parks</Header>
-      <StateParksMap
-        parkData={parkData}
-        onSelectPark={(park: ParkData) => handleSelectPark(park)}
-      />
-      {selectedParks && (
-        <div className={styles.buttonsContainter}>
-          <button
-            className={styles.button}
-            onClick={() => setChartToDisplay("BAR_CHART")}
-          >
-            Category
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => setChartToDisplay("PIE_CHART")}
-          >
-            Occurance
-          </button>
-          <button
-            className={styles.button}
-            onClick={() => setChartToDisplay("Order")}
-          >
-            Order
-          </button>
+      <Header className={styles.h1} level="h1">
+        Biodiversity in National Parks
+      </Header>
+      <div style={{ display: "flex", width: "100%", paddingTop: "45px" }}>
+        <NationalParksMap
+          className={styles.mapContainer}
+          parkData={parkData}
+          onSelectPark={(park: ParkData) => handleSelectPark(park)}
+        />
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            paddingTop: "20px",
+          }}
+        >
+          {selectedParks && (
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.button}
+                onClick={() => setChartToDisplay("BAR_CHART")}
+              >
+                Category
+              </button>
+              <button
+                className={styles.button}
+                onClick={() => setChartToDisplay("PIE_CHART")}
+              >
+                Occurance
+              </button>
+              <button
+                className={styles.button}
+                onClick={() => setChartToDisplay("Order")}
+              >
+                Order
+              </button>
+            </div>
+          )}
+
+          <div className={styles.chartContainer}>
+            {selectedParkSpeciesData && chartToDisplay === "BAR_CHART" && (
+              <CategoryBarChart speciesData={selectedParkSpeciesData} />
+            )}
+            {selectedParkSpeciesData &&
+              selectedParks?.Park &&
+              chartToDisplay === "PIE_CHART" && (
+                <PieChartComponent
+                  speciesData={selectedParkSpeciesData}
+                  parkName={selectedParks?.Park}
+                />
+              )}
+            {selectedParkSpeciesData && chartToDisplay === "Order" && (
+              <OrderBarChart speciesData={selectedParkSpeciesData} />
+            )}
+          </div>
         </div>
-      )}
-      {selectedParkSpeciesData && chartToDisplay === "BAR_CHART" && (
-        <CategoryBarChart speciesData={selectedParkSpeciesData} />
-      )}
-      {selectedParkSpeciesData &&
-        selectedParks?.Park &&
-        chartToDisplay === "PIE_CHART" && (
-          <PieChartComponent
-            speciesData={selectedParkSpeciesData}
-            parkName={selectedParks?.Park}
-          />
-        )}
-      {selectedParkSpeciesData && chartToDisplay === "Order" && (
-        <OrderBarChart speciesData={selectedParkSpeciesData} />
-      )}
+      </div>
     </div>
   );
 };

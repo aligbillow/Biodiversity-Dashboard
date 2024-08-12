@@ -54,7 +54,7 @@ const OrderBarChart = ({ speciesData }: ChartComponentProps) => {
           data={chartData}
           margin={{
             top: 5,
-            right: 30,
+            right: 35,
             left: 20,
             bottom: 5,
           }}

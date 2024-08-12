@@ -6,13 +6,15 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import "leaflet/dist/leaflet.css";
 import { ParkData } from "@/types/park";
+import styles from "./NationalParksMap.module.css";
 
 type Props = {
   parkData: any;
   onSelectPark: (park: ParkData) => void;
+  className?: string;
 };
 
-const StateParksMap = ({ parkData, onSelectPark }: Props) => {
+const NationalParksMap = ({ parkData, onSelectPark, className }: Props) => {
   const LocationMarker = ({ park }: { park: any }) => {
     return (
       <Marker
@@ -29,22 +31,24 @@ const StateParksMap = ({ parkData, onSelectPark }: Props) => {
   };
 
   return (
-    <MapContainer
-      dragging={false}
-      scrollWheelZoom={false}
-      center={[37.0902, -95.7129]}
-      zoom={3.5}
-      style={{ height: "100vh", width: "100%" }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {parkData?.map((park: any) => (
-        <LocationMarker key={park.Code} park={park} />
-      ))}
-    </MapContainer>
+    <div className={styles.map}>
+      <MapContainer
+        dragging={true}
+        scrollWheelZoom={true}
+        center={[37.0902, -95.7129]}
+        zoom={3}
+        style={{ height: "70vh", width: "80%" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {parkData?.map((park: any) => (
+          <LocationMarker key={park.Code} park={park} />
+        ))}
+      </MapContainer>
+    </div>
   );
 };
 
-export default StateParksMap;
+export default NationalParksMap;

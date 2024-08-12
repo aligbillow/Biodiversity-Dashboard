@@ -37,24 +37,24 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <PieChart width={400} height={400}>
+      <PieChart width={300} height={400}>
         <Pie
           data={chartData}
           cx={200}
           cy={200}
+          fill="#8884d8"
           labelLine={false}
           label={({ name, percent }) =>
             `${name}: ${(percent * 100).toFixed(2)}%`
           }
           outerRadius={80}
-          fill="#205c35"
           dataKey="value"
         >
-          {chartData.map((index: number) => (
+          {chartData.map((_: any, index: number) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
-        <Tooltip />
+        {/* <Tooltip /> */}
         <Legend />
       </PieChart>
     </ResponsiveContainer>
