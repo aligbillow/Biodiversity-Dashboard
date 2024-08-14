@@ -1,4 +1,3 @@
-// Define the types - move to a new file
 export interface DataEntry {
   "Species ID": string;
   Park: string;
@@ -31,41 +30,51 @@ export interface ChartDataEntry {
 
 // Function to aggregate the data
 export const aggregateData = (data: DataEntry[]): AggregatedData => {
-    const parkStatusCount: AggregatedData = {};
-  
-    data.forEach(entry => {
-      const park = entry.Park;
-  
-      if (!parkStatusCount[park]) {
-        parkStatusCount[park] = {
-          Occurrence: {},
-          Nativeness: {},
-          Abundance: {},
-          Seasonality: {},
-          "Conservation Status": {}
-        };
+  const parkStatusCount: AggregatedData = {};
+
+  data.forEach((entry) => {
+    const park = entry.Park;
+
+    if (!parkStatusCount[park]) {
+      parkStatusCount[park] = {
+        Occurrence: {},
+        Nativeness: {},
+        Abundance: {},
+        Seasonality: {},
+        "Conservation Status": {},
+      };
+    }
+
+    [
+      "Occurrence",
+      "Nativeness",
+      "Abundance",
+      "Seasonality",
+      "Conservation Status",
+    ].forEach((status) => {
+      const statusValue = entry[status] || "Unknown";
+      if (!parkStatusCount[park][status][statusValue]) {
+        parkStatusCount[park][status][statusValue] = 0;
       }
-  
-      ['Occurrence', 'Nativeness', 'Abundance', 'Seasonality', 'Conservation Status'].forEach(status => {
-        const statusValue = entry[status] || 'Unknown';
-        if (!parkStatusCount[park][status][statusValue]) {
-          parkStatusCount[park][status][statusValue] = 0;
-        }
-        parkStatusCount[park][status][statusValue]++;
-      });
+      parkStatusCount[park][status][statusValue]++;
     });
-  
-    return parkStatusCount;
-  };
-  
+  });
+
+  return parkStatusCount;
+};
+
 // Function to prepare chart data
-export const prepareChartData = (park: string, status: string, data: AggregatedData): ChartDataEntry[] => {
+export const prepareChartData = (
+  park: string,
+  status: string,
+  data: AggregatedData
+): ChartDataEntry[] => {
   const chartData: ChartDataEntry[] = [];
 
-  Object.keys(data[park][status]).forEach(value => {
+  Object.keys(data[park][status]).forEach((value) => {
     chartData.push({
       name: value,
-      value: data[park][status][value]
+      value: data[park][status][value],
     });
   });
 

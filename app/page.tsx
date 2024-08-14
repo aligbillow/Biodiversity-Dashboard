@@ -12,18 +12,16 @@ type AppData = {
 
 const Page = () => {
   const [data, setData] = useState<AppData | null>(null);
-  // const [filteredData, setFilteredData] = useState<AppData[]>();
-  console.log("data: ", data);
+  // console.log("data: ", data);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("/api/parks");
       const result = await response.json();
-      console.log("result: ", result);
+      // console.log("result: ", result);
       setData(result);
       setLoaded(true);
-      // setFilteredData(data);
     };
     fetchData();
   }, []);

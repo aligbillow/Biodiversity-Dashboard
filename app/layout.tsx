@@ -8,7 +8,7 @@ import ChartProviderProvider, {
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BioDiversity in State Parks",
+  title: "Biodiversity in National Parks",
   description: "A Data Visualization App",
 };
 

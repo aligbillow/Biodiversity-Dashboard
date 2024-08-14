@@ -1,0 +1,9 @@
+.infoCard {
+  font-family: "Playfair Display", serif;
+  position: absolute;
+  bottom: 0;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+}

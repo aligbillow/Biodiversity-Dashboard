@@ -14,34 +14,34 @@ import { SpeciesData } from "@/types/species";
 
 type ChartComponentProps = {
   speciesData: SpeciesData[];
+  onBarClick: (data: { name: string; count: number }) => void;
 };
 
-const CategoryBarChart = ({ speciesData }: ChartComponentProps) => {
-  const [catergoryData, setCategoryData] = useState(null);
-  const [barChartFilter, setBarChartFilter] = useState<any>("Category");
+const OrderBarChart = ({ speciesData, onBarClick }: ChartComponentProps) => {
+  const [orderData, setOrderData] = useState(null);
+  const [sampleState, setSampleState] = useState<any>("Order");
 
   useEffect(() => {
     if (speciesData) {
-      const categoryCount = speciesData.reduce((acc: any, curr: any) => {
-        const category = curr[barChartFilter];
-        if (category) {
-          if (!acc[category]) {
-            acc[category] = 0;
+      const orderCount = speciesData.reduce((acc: any, curr: any) => {
+        const order = curr[sampleState];
+        if (order) {
+          if (!acc[order]) {
+            acc[order] = 0;
           }
-          acc[category]++;
+          acc[order]++;
         }
         return acc;
       }, {});
-      console.log(categoryCount);
-      setCategoryData(categoryCount);
+      setOrderData(orderCount);
     }
-  }, [speciesData, barChartFilter]);
+  }, [speciesData, sampleState]);
 
   const chartData =
-    catergoryData &&
-    Object.keys(catergoryData).map((category: any) => ({
-      name: category,
-      count: catergoryData[category],
+    orderData &&
+    Object.keys(orderData).map((order: any) => ({
+      name: order,
+      count: orderData[order],
     }));
 
   if (chartData)
@@ -53,9 +53,14 @@ const CategoryBarChart = ({ speciesData }: ChartComponentProps) => {
           data={chartData}
           margin={{
             top: 5,
-            right: 30,
+            right: 35,
             left: 20,
             bottom: 5,
+          }}
+          onClick={(data) => {
+            if (data && data.activePayload && data.activePayload[0]) {
+              onBarClick(data.activePayload[0].payload);
+            }
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -67,10 +72,11 @@ const CategoryBarChart = ({ speciesData }: ChartComponentProps) => {
             dataKey="count"
             fill="#205c35"
             activeBar={<Rectangle fill="#778150" stroke="#205c35" />}
+            cursor="pointer"
           />
         </BarChart>
       </ResponsiveContainer>
     );
 };
 
-export default CategoryBarChart;
+export default OrderBarChart;

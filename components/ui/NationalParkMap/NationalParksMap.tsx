@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
 import "leaflet-defaulticon-compatibility";
@@ -14,22 +14,31 @@ type Props = {
   className?: string;
 };
 
-const NationalParksMap = ({ parkData, onSelectPark, className }: Props) => {
-  const LocationMarker = ({ park }: { park: any }) => {
-    return (
-      <Marker
-        position={[park.Latitude, park.Longitude]}
-        eventHandlers={{
-          click: () => {
-            onSelectPark(park);
-          },
-        }}
-      >
-        <Popup>{park["Park"]}</Popup>
-      </Marker>
-    );
-  };
+const LocationMarker = ({
+  park,
+  onSelectPark,
+}: {
+  park: any;
+  onSelectPark: any;
+}) => {
+  const markerRef: any = useRef(null);
 
+  return (
+    <Marker
+      position={[park.Latitude, park.Longitude]}
+      ref={markerRef}
+      eventHandlers={{
+        click: () => {
+          onSelectPark(park);
+        },
+      }}
+    >
+      <Popup>{park.Park}</Popup>
+    </Marker>
+  );
+};
+
+const NationalParksMap = ({ parkData, onSelectPark, className }: Props) => {
   return (
     <div className={styles.map}>
       <MapContainer
@@ -44,7 +53,11 @@ const NationalParksMap = ({ parkData, onSelectPark, className }: Props) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {parkData?.map((park: any) => (
-          <LocationMarker key={park.Code} park={park} />
+          <LocationMarker
+            onSelectPark={onSelectPark}
+            key={park.Code}
+            park={park}
+          />
         ))}
       </MapContainer>
     </div>

@@ -1,5 +1,6 @@
 .mainContainer {
   padding: 10px;
+  font-family: "Playfair Display", serif;
 }
 
 .mapContainer {
@@ -7,15 +8,11 @@
   width: 90%;
   flex-direction: column;
   justify-content: space-between;
-  border: 2px solid red;
-  border-radius: 5px;
 }
 
 .buttonContainer {
   display: flex;
   justify-content: space-evenly;
-  border: 2px solid red;
-  border-radius: 5px;
   padding: 10px;
 }
 
@@ -30,10 +27,14 @@
 }
 
 .chartContainer {
-  border: 2px solid red;
-  border-radius: 5px;
   display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: center;
   padding-top: 10px;
+}
+
+.defaultMessage {
+  display: flex;
+  justify-content: center;
 }
