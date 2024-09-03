@@ -21,7 +21,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   onPieClick,
 }) => {
   const [chartData, setChartData] = useState<any>(null);
-  const COLORS = ["#205c35", "#9ab642", "#717c48", "#454839"];
+  const COLORS = ["#717c48", "#454839", "#aaad9b", "#138483", "#59bab7"];
 
   useEffect(() => {
     if (speciesData) {
@@ -40,12 +40,12 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   return (
     <ResponsiveContainer width="100%" height={400}>
       <PieChart
-        width={200}
-        height={300}
+        width={130}
+        height={270}
         margin={{
           top: 5,
           right: 35,
-          left: 20,
+          left: 50,
           bottom: 5,
         }}
         onClick={(data) => {
@@ -59,7 +59,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
           cx={200}
           cy={200}
           fill="#8884d8"
-          labelLine={false}
+          labelLine={true}
           label={({ name, percent }) =>
             `${name}: ${(percent * 100).toFixed(2)}%`
           }

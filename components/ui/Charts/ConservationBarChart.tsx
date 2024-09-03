@@ -17,31 +17,34 @@ type ChartComponentProps = {
   onBarClick: (data: { name: string; count: number }) => void;
 };
 
-const CategoryBarChart = ({ speciesData, onBarClick }: ChartComponentProps) => {
-  const [catergoryData, setCategoryData] = useState(null);
-  const [barChartFilter, setBarChartFilter] = useState<any>("Category");
+const ConservationBarChart = ({
+  speciesData,
+  onBarClick,
+}: ChartComponentProps) => {
+  const [conservationData, setConservationData] = useState(null);
+  const [sampleState, setSampleState] = useState<any>("Conservation Status");
 
   useEffect(() => {
     if (speciesData) {
-      const categoryCount = speciesData.reduce((acc: any, curr: any) => {
-        const category = curr[barChartFilter];
-        if (category) {
-          if (!acc[category]) {
-            acc[category] = 0;
+      const conservationCount = speciesData.reduce((acc: any, curr: any) => {
+        const conservation = curr[sampleState];
+        if (conservation) {
+          if (!acc[conservation]) {
+            acc[conservation] = 0;
           }
-          acc[category]++;
+          acc[conservation]++;
         }
         return acc;
       }, {});
-      setCategoryData(categoryCount);
+      setConservationData(conservationCount);
     }
-  }, [speciesData, barChartFilter]);
+  }, [speciesData, sampleState]);
 
   const chartData =
-    catergoryData &&
-    Object.keys(catergoryData).map((category: any) => ({
-      name: category,
-      count: catergoryData[category],
+    conservationData &&
+    Object.keys(conservationData).map((conservation: any) => ({
+      name: conservation,
+      count: conservationData[conservation],
     }));
 
   if (chartData)
@@ -72,10 +75,11 @@ const CategoryBarChart = ({ speciesData, onBarClick }: ChartComponentProps) => {
             dataKey="count"
             fill="#454839"
             activeBar={<Rectangle fill="#138483" stroke="#205c35" />}
+            cursor="pointer"
           />
         </BarChart>
       </ResponsiveContainer>
     );
 };
 
-export default CategoryBarChart;
+export default ConservationBarChart;

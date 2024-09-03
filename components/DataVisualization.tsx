@@ -5,11 +5,16 @@ import dynamic from "next/dynamic";
 import CategoryBarChart from "./ui/Charts/CategoryBarChart";
 import PieChartComponent from "./ui/Charts/OccurancePieChart";
 import OrderBarChart from "./ui/Charts/OrderBarChart";
+import ConservationBarChart from "@/components/ui/Charts/ConservationBarChart";
+import SeasonalityBarChart from "@/components/ui/Charts/SeasonalityBarChart";
 import InfoCard from "./ui/InfoCard/InfoCard";
 import { ParkData } from "@/types/park";
 import { SpeciesData } from "@/types/species";
 import Header from "./ui/Header/Header";
 import styles from "./App.module.css";
+
+// make live w/ netilify, vercel
+// make new chart info cards
 
 const NationalParksMap = dynamic(
   () => import("./ui/NationalParkMap/NationalParksMap"),
@@ -31,7 +36,7 @@ const DataVisualization = ({ parkData, speciesData, className }: Props) => {
     count: number;
   } | null>(null);
 
-  const [chartToDisplay, setChartToDisplay] = useState<string>("BAR_CHART");
+  const [chartToDisplay, setChartToDisplay] = useState<string>("Category");
   const [selectedParkSpeciesData, setSelectedParkSpeciesData] = useState<
     SpeciesData[]
   >([]);
@@ -59,7 +64,7 @@ const DataVisualization = ({ parkData, speciesData, className }: Props) => {
       <Header className={styles.h1} level="h1">
         Biodiversity in National Parks
       </Header>
-      <div style={{ display: "flex", width: "100%", paddingTop: "45px" }}>
+      <div style={{ display: "flex", width: "100%" }}>
         <NationalParksMap
           className={styles.mapContainer}
           parkData={parkData}
@@ -79,36 +84,15 @@ const DataVisualization = ({ parkData, speciesData, className }: Props) => {
             </div>
           ) : (
             <>
-              <div className={styles.buttonContainer}>
-                <button
-                  className={styles.button}
-                  onClick={() => setChartToDisplay("BAR_CHART")}
-                >
-                  Category
-                </button>
-                <button
-                  className={styles.button}
-                  onClick={() => setChartToDisplay("PIE_CHART")}
-                >
-                  Occurance
-                </button>
-                <button
-                  className={styles.button}
-                  onClick={() => setChartToDisplay("Order")}
-                >
-                  Order
-                </button>
-              </div>
-
               <div className={styles.chartContainer}>
-                {chartToDisplay === "BAR_CHART" && (
+                {chartToDisplay === "Category" && (
                   <CategoryBarChart
                     speciesData={selectedParkSpeciesData}
                     onBarClick={handleBarClick}
                   />
                 )}
 
-                {chartToDisplay === "PIE_CHART" && (
+                {chartToDisplay === "Occurance" && (
                   <PieChartComponent
                     speciesData={selectedParkSpeciesData}
                     parkName={selectedParks?.Park}
@@ -122,6 +106,50 @@ const DataVisualization = ({ parkData, speciesData, className }: Props) => {
                     onBarClick={handleBarClick}
                   />
                 )}
+                {chartToDisplay === "Conservation" && (
+                  <ConservationBarChart
+                    speciesData={selectedParkSpeciesData}
+                    onBarClick={handleBarClick}
+                  />
+                )}
+                {chartToDisplay === "Seasonality" && (
+                  <SeasonalityBarChart
+                    speciesData={selectedParkSpeciesData}
+                    onBarClick={handleBarClick}
+                  />
+                )}
+              </div>
+              <div className={styles.buttonContainer}>
+                <button
+                  className={styles.button}
+                  onClick={() => setChartToDisplay("Category")}
+                >
+                  Category
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => setChartToDisplay("Occurance")}
+                >
+                  Occurance
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => setChartToDisplay("Order")}
+                >
+                  Order
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => setChartToDisplay("Conservation")}
+                >
+                  Conservation
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => setChartToDisplay("Seasonality")}
+                >
+                  Seasonality
+                </button>
               </div>
 
               {selectedData && (

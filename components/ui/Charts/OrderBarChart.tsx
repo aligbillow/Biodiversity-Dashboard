@@ -48,13 +48,13 @@ const OrderBarChart = ({ speciesData, onBarClick }: ChartComponentProps) => {
     return (
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
-          width={600}
+          width={700}
           height={300}
           data={chartData}
           margin={{
-            top: 5,
+            top: 0,
             right: 35,
-            left: 20,
+            left: 0,
             bottom: 5,
           }}
           onClick={(data) => {
@@ -70,8 +70,8 @@ const OrderBarChart = ({ speciesData, onBarClick }: ChartComponentProps) => {
           <Legend />
           <Bar
             dataKey="count"
-            fill="#205c35"
-            activeBar={<Rectangle fill="#778150" stroke="#205c35" />}
+            fill="#454839"
+            activeBar={<Rectangle fill="#138483" stroke="#205c35" />}
             cursor="pointer"
           />
         </BarChart>

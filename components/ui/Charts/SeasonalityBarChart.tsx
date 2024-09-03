@@ -17,31 +17,34 @@ type ChartComponentProps = {
   onBarClick: (data: { name: string; count: number }) => void;
 };
 
-const CategoryBarChart = ({ speciesData, onBarClick }: ChartComponentProps) => {
-  const [catergoryData, setCategoryData] = useState(null);
-  const [barChartFilter, setBarChartFilter] = useState<any>("Category");
+const SeasonalityBarChart = ({
+  speciesData,
+  onBarClick,
+}: ChartComponentProps) => {
+  const [seasonalityData, setSeasonalityData] = useState(null);
+  const [sampleState, setSampleState] = useState<string>("Seasonality");
 
   useEffect(() => {
     if (speciesData) {
-      const categoryCount = speciesData.reduce((acc: any, curr: any) => {
-        const category = curr[barChartFilter];
-        if (category) {
-          if (!acc[category]) {
-            acc[category] = 0;
+      const seasonalityData = speciesData.reduce((acc: any, curr: any) => {
+        const seasonality = curr[sampleState];
+        if (seasonality) {
+          if (!acc[seasonality]) {
+            acc[seasonality] = 0;
           }
-          acc[category]++;
+          acc[seasonality]++;
         }
         return acc;
       }, {});
-      setCategoryData(categoryCount);
+      setSeasonalityData(seasonalityData);
     }
-  }, [speciesData, barChartFilter]);
+  }, [speciesData, sampleState]);
 
   const chartData =
-    catergoryData &&
-    Object.keys(catergoryData).map((category: any) => ({
-      name: category,
-      count: catergoryData[category],
+    seasonalityData &&
+    Object.keys(seasonalityData).map((conservation: any) => ({
+      name: conservation,
+      count: seasonalityData[conservation],
     }));
 
   if (chartData)
@@ -72,10 +75,11 @@ const CategoryBarChart = ({ speciesData, onBarClick }: ChartComponentProps) => {
             dataKey="count"
             fill="#454839"
             activeBar={<Rectangle fill="#138483" stroke="#205c35" />}
+            cursor="pointer"
           />
         </BarChart>
       </ResponsiveContainer>
     );
 };
 
-export default CategoryBarChart;
+export default SeasonalityBarChart;
