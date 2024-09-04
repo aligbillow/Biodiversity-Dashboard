@@ -35,7 +35,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
     }
   }, [speciesData, parkName]);
 
-  if (!chartData) return <div>...loading chart</div>;
+  if (!chartData) return <div>...loading pie chart</div>;
 
   return (
     <ResponsiveContainer width="100%" height={400}>

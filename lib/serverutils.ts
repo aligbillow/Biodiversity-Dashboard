@@ -13,6 +13,7 @@ export interface DataEntry {
   Seasonality: string;
   "Conservation Status": string;
   "": string;
+  any: string;
 }
 
 export interface AggregatedData {
