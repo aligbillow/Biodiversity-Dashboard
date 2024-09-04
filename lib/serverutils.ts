@@ -52,7 +52,9 @@ export const aggregateData = (data: DataEntry[]): AggregatedData => {
       "Seasonality",
       "Conservation Status",
     ].forEach((status) => {
-      const statusValue = entry[status] || "Unknown";
+      const statusKey = status as keyof DataEntry; // Casting status to a key of DataEntry
+      const statusValue = entry[statusKey] || "Unknown"; // Using the cast key
+      // const statusValue = entry[status] || "Unknown"; // Type error
       if (!parkStatusCount[park][status][statusValue]) {
         parkStatusCount[park][status][statusValue] = 0;
       }
@@ -70,6 +72,18 @@ export const prepareChartData = (
   data: AggregatedData
 ): ChartDataEntry[] => {
   const chartData: ChartDataEntry[] = [];
+
+  // Check if the park exists in the data
+  if (!data[park]) {
+    console.error(`Park "${park}" not found in the data`);
+    return chartData;
+  }
+
+  // Check if the status exists for the park
+  if (!data[park][status]) {
+    console.error(`Status "${status}" not found for park "${park}"`);
+    return chartData;
+  }
 
   Object.keys(data[park][status]).forEach((value) => {
     chartData.push({

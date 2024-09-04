@@ -33,7 +33,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
       );
       setChartData(chartData);
     }
-  }, [speciesData]);
+  }, [speciesData, parkName]);
 
   if (!chartData) return <div>...loading chart</div>;
 
